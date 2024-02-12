@@ -23,5 +23,4 @@ jobs:
 
     - name: Build
       run: |
-        go mod init
         go build -v .
