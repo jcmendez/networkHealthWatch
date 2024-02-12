@@ -11,6 +11,8 @@
 *.so
 *.dylib
 
+networkHealthWatch
+
 # Test binary, built with `go test -c`
 *.test
 

@@ -14,4 +14,16 @@ API to turn the router off.
 The plug is programmed to turn itself on after a short time, if turned off
 by any circumstance (manual button press, power loss, etc.)
 
+### Requirements
+
+Needs a working go installation to build from source.  Compiled binary is self-contained, 
+and is around 7M in size on a Mac M1
+
+### Environment variables
+
+Can be provided by shell on call, or written to a .env file.
+
+The file `sample-dot-env` provided shows the required variables.
+
+
 

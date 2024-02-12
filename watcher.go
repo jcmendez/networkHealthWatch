@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/go-ping/ping"
+	"github.com/joho/godotenv"
 	"net/http"
 	"os"
 	"strings"
@@ -110,6 +111,10 @@ func checkAndPost(plugToRestart, externalAddress, encryptionKey string) {
 func main() {
 	routerPlugAddress := "172.16.18.45"
 	quadEightAddress := "8.8.8.8"
+
+	// Try to load a .env file.  Otherwise, env vars can be provided
+	godotenv.Load(".env")
+
 	encryptionKey := os.Getenv("ENCRYPTION_KEY")
 	if encryptionKey == "" {
 		fmt.Println("Encryption key not set in environment variable.")
