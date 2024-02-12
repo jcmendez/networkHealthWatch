@@ -17,28 +17,27 @@ var (
 	mutex       sync.Mutex
 )
 
+// checkICMPPing sends an ICMP ping to the given IP address and returns true if it receives a reply.
 func checkICMPPing(ip string) bool {
 	pinger, err := ping.NewPinger(ip)
 	if err != nil {
 		fmt.Println("Error creating pinger:", err)
 		return false
 	}
-
 	pinger.Count = 1
 	pinger.Timeout = 2 * time.Second
-
 	err = pinger.Run()
 	if err != nil {
 		fmt.Println("Error running pinger:", err)
 		return false
 	}
-
 	stats := pinger.Statistics()
 	return stats.PacketsRecv > 0
 }
 
+// turnSwitchOff sends an HTTP POST request to the plug address to turn off the switch.
+// It requires the encryption key as a header for authentication.
 func turnSwitchOff(plugAddress, encryptionKey string) {
-
 	// Define the JSON payload (empty in this case)
 	payload := []byte("{}")
 
@@ -77,6 +76,8 @@ func turnSwitchOff(plugAddress, encryptionKey string) {
 	fmt.Println("Switch toggled successfully!")
 }
 
+// checkAndPost checks the connectivity to the plug and the external address, and calls turnSwitchOff if needed.
+// It runs in an infinite loop with a sleep interval of 1 second.
 func checkAndPost(plugToRestart, externalAddress, encryptionKey string) {
 	for {
 		// Check connection to the plug we would need to restart (the router, the cable box, etc.)
@@ -108,6 +109,8 @@ func checkAndPost(plugToRestart, externalAddress, encryptionKey string) {
 	}
 }
 
+// main loads the encryption key from the environment variable and initializes the lastSuccess time.
+// It then starts a goroutine to run checkAndPost and keeps the main goroutine running.
 func main() {
 	routerPlugAddress := "172.16.18.45"
 	quadEightAddress := "8.8.8.8"
